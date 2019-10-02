@@ -94,7 +94,7 @@ exports.newContact = async function(c: any) {
                 console.log(
                     "Adding items to requiredContacts because there are no detected contacts on the phone."
                 );
-                requiredContacts.push(c);
+                requiredContacts.push(c[x]);
             }
             break;
         }
