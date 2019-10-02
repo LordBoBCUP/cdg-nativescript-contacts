@@ -86,6 +86,7 @@ exports.newContact = async function(c: any) {
         }
     );
 
+    console.log("We are here");
     var requiredContacts = new Array();
 
     for (var i = 0; i < c.length; i++) {
