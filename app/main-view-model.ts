@@ -85,7 +85,9 @@ exports.newContact = async function(c: any) {
             console.log("Error: " + err);
         }
     );
-    console.log("After args.data");
+
+    var requiredContacts = new Array();
+
     for (var i = 0; i < c.length; i++) {
         for (var j = 0; j < phoneContacts.length; j++) {
             console.log(
@@ -102,21 +104,25 @@ exports.newContact = async function(c: any) {
                 console.log("Contact Already exists. Dont process");
                 break;
             } else {
-                var newContact = new contacts.Contact();
-                newContact.name.given = c[i].firstname;
-                newContact.name.family = c[i].lastname;
-                newContact.phoneNumbers.push({
-                    label: contacts.KnownLabel.HOME,
-                    value: c[i].phonenumber
-                });
-                newContact.name.displayname =
-                    c[i].firstname + " " + c[i].lastname;
-                try {
-                    newContact.save();
-                } catch (e) {
-                    console.log(e);
-                }
+                requiredContacts.push(c);
             }
+        }
+    }
+
+    for (var k = 0; k < requiredContacts.length; k++) {
+        var newContact = new contacts.Contact();
+        newContact.name.given = requiredContacts[k].firstname;
+        newContact.name.family = requiredContacts[k].lastname;
+        newContact.phoneNumbers.push({
+            label: contacts.KnownLabel.HOME,
+            value: requiredContacts[k].phonenumber
+        });
+        newContact.name.displayname =
+            requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
+        try {
+            newContact.save();
+        } catch (e) {
+            console.log(e);
         }
     }
 };
