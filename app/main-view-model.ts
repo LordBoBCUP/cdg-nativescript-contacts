@@ -28,10 +28,10 @@ export class HelloWorldModel extends Observable {
         }
     }
 
-    onTap() {
+    async onTap() {
         console.log("Button was pressed");
         this.updateMessage("Processing...");
-        exports.contacts();
+        await exports.contacts();
         this.updateMessage("Contacts Successfully Synced.");
     }
 
@@ -40,9 +40,9 @@ export class HelloWorldModel extends Observable {
     }
 }
 
-exports.contacts = function() {
+exports.contacts = async function() {
     console.log("Here1");
-    getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
+    await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
         function(r: any) {
             var c = new Array();
             for (var i = 0; i < r.length; i++) {
@@ -111,7 +111,7 @@ exports.newContact = async function(c: any) {
                 phoneContacts[j].name.family == c[i].lastname
             ) {
                 console.log("Contact Already exists. Dont process");
-                break;
+                continue;
             } else {
                 requiredContacts.push(c);
             }
@@ -133,7 +133,7 @@ exports.newContact = async function(c: any) {
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
-            newContact.save();
+            await newContact.save();
         } catch (e) {
             console.log(e);
         }
