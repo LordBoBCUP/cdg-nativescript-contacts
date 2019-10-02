@@ -87,6 +87,10 @@ exports.newContact = function(c: any) {
 
     for (var i = 0; i < c.length; i++) {
         for (var j = 0; j < phoneContacts.length; j++) {
+            console.log(
+                phoneContacts[j].name.given + " " + phoneContacts[j].name.family
+            );
+            console.log(c[i].firstname + " " + c[i].lastname);
             if (
                 phoneContacts[j].name.given == c[i].firstname &&
                 phoneContacts[j].name.family == c[i].lastname
