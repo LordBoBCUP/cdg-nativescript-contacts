@@ -67,16 +67,17 @@ exports.contacts = function() {
     );
 };
 
-exports.newContact = function(c: any) {
+exports.newContact = async function(c: any) {
     var app = require("application");
     var contacts = require("nativescript-contacts");
     // Get Contacts object
     var contactFields = ["name"];
-    var phoneContacts = contacts.getAllContacts(contactFields).then(
+    var phoneContacts = await contacts.getAllContacts(contactFields).then(
         function(args) {
             if (args.data === null) {
                 console.log("No Contacts Found.");
             } else {
+                console.log("args.data");
                 return args.data;
             }
         },
@@ -84,7 +85,7 @@ exports.newContact = function(c: any) {
             console.log("Error: " + err);
         }
     );
-
+    console.log("After args.data");
     for (var i = 0; i < c.length; i++) {
         for (var j = 0; j < phoneContacts.length; j++) {
             console.log(
