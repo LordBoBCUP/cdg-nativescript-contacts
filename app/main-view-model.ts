@@ -41,7 +41,29 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function() {
-    console.log("Here1");
+    var app = require("application");
+    var contacts = require("nativescript-contacts");
+    // Check if CDG group exists
+    var groupExists = contacts.getGroups("CDG").then(
+        function(args) {
+            if (args.data === null) {
+                // No Group exists
+                return false;
+            }
+            return true;
+        },
+        function(err) {
+            console.log("Error: " + err);
+        }
+    );
+
+    if (groupExists == false) {
+        // Create the group
+        var groupModel = new contacts.Group();
+        groupModel.name = "CDG";
+        await groupModel.save(false);
+    }
+
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
         function(r: any) {
             var c = new Array();
@@ -136,6 +158,13 @@ exports.newContact = async function(c: any) {
         try {
             console.log(newContact);
             await newContact.save();
+            // Add contact to group
+            contacts.getGroups("CDG").then(function(a) {
+                if (a.data !== null) {
+                    var group = a.data[0];
+                    group.addMember(newContact);
+                }
+            });
         } catch (e) {
             console.log(e);
         }
