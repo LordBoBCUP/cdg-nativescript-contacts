@@ -86,10 +86,15 @@ exports.newContact = async function(c: any) {
         }
     );
 
-    console.log("We are here");
     var requiredContacts = new Array();
 
     for (var i = 0; i < c.length; i++) {
+        if (phoneContacts.length == 0) {
+            for (var x = 0; x < c.length; x++) {
+                requiredContacts.push(c);
+            }
+            break;
+        }
         for (var j = 0; j < phoneContacts.length; j++) {
             console.log(
                 "phoneContacts: " +
