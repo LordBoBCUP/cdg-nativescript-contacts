@@ -91,6 +91,9 @@ exports.newContact = async function(c: any) {
     for (var i = 0; i < c.length; i++) {
         if (phoneContacts.length == 0) {
             for (var x = 0; x < c.length; x++) {
+                console.log(
+                    "Adding items to requiredContacts because there are no detected contacts on the phone."
+                );
                 requiredContacts.push(c);
             }
             break;
@@ -115,6 +118,10 @@ exports.newContact = async function(c: any) {
         }
     }
 
+    console.log(
+        "Looping through the requiredContacts array. Length is: " +
+            requiredContacts.length
+    );
     for (var k = 0; k < requiredContacts.length; k++) {
         var newContact = new contacts.Contact();
         newContact.name.given = requiredContacts[k].firstname;
