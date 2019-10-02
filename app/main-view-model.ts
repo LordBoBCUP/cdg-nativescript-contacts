@@ -134,6 +134,7 @@ exports.newContact = async function(c: any) {
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
+            console.log(newContact);
             await newContact.save();
         } catch (e) {
             console.log(e);
