@@ -41,7 +41,6 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function() {
-    console.log("Here1");
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
         function(r: any) {
             var c = new Array();
