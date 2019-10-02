@@ -123,6 +123,7 @@ exports.newContact = async function(c: any) {
             requiredContacts.length
     );
     for (var k = 0; k < requiredContacts.length; k++) {
+        console.log(requiredContacts[k]);
         var newContact = new contacts.Contact();
         newContact.name.given = requiredContacts[k].firstname;
         newContact.name.family = requiredContacts[k].lastname;
