@@ -101,22 +101,22 @@ exports.newContact = async function(c: any) {
             ) {
                 console.log("Contact Already exists. Dont process");
                 break;
+            } else {
+                var newContact = new contacts.Contact();
+                newContact.name.given = c[i].firstname;
+                newContact.name.family = c[i].lastname;
+                newContact.phoneNumbers.push({
+                    label: contacts.KnownLabel.HOME,
+                    value: c[i].phonenumber
+                });
+                newContact.name.displayname =
+                    c[i].firstname + " " + c[i].lastname;
+                try {
+                    newContact.save();
+                } catch (e) {
+                    console.log(e);
+                }
             }
-        }
-
-        var newContact = new contacts.Contact();
-        newContact.name.given = c[i].firstname;
-        newContact.name.family = c[i].lastname;
-        newContact.phoneNumbers.push({
-            label: contacts.KnownLabel.HOME,
-            value: c[i].phonenumber
-        });
-        newContact.name.displayname = c[i].firstname + " " + c[i].lastname;
-        console.log(newContact);
-        try {
-            newContact.save();
-        } catch (e) {
-            console.log(e);
         }
     }
 };
