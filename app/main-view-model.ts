@@ -118,7 +118,7 @@ exports.newContact = async function(c: any) {
                 console.log("Contact Already exists. Dont process");
                 continue;
             } else {
-                requiredContacts.push(c);
+                requiredContacts.push(c[i]);
             }
         }
     }
