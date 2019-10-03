@@ -172,6 +172,7 @@ exports.deleteCDGContacts = async function() {
 
     await contacts.getAllContacts(contactFields).then(
         function(args) {
+            console.log(args.length);
             /// Returns args:
             /// args.data: Generic cross platform JSON object, null if no contacts were found.
             /// args.reponse: "fetch"
@@ -181,8 +182,14 @@ exports.deleteCDGContacts = async function() {
             }
 
             for (var i = 0; i < args.data.length; i++) {
+                console.log(
+                    args.data[i].name.given +
+                        " " +
+                        args.data[i].organization.name
+                );
                 if (args.data[i].organization.name == "CDG") {
                     var contact = args.data[i];
+                    console.log("Deleting: \n" + contact);
                     contact.delete();
                 }
             }
