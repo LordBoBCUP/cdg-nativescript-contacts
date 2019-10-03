@@ -178,6 +178,7 @@ exports.deleteCDGContacts = async function() {
             /// args.reponse: "fetch"
             if (args.data === null) {
                 // Do nothing, no contacts to iterate through
+                console.log("args is empty");
                 return true;
             }
 
