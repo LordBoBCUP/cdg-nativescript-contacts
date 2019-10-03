@@ -28,5 +28,7 @@ https://docs.nativescript.org/ui/components.
         <Label text="Sync VHS Contacts!" class="h1 text-center"/>
         <Button text="Sync!" tap="{{ onTap }}" class="btn btn-primary btn-active"/>
         <Label text="{{ message }}" class="h2 text-center" textWrap="true"/>
+        <label text="" class="h2 text-center" textWrap="true" />
+        <Button text="Delete CDG Contacts" tap="{{ deleteContacts }}" class="btn btn-primary btn-active" />
     </StackLayout>
 </Page>

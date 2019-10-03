@@ -35,38 +35,18 @@ export class HelloWorldModel extends Observable {
         this.updateMessage("Contacts Successfully Synced.");
     }
 
+    async deleteContacts() {
+        this.updateMessage("Processing...");
+        await exports.deleteCDGContacts();
+        this.updateMessage("Contacts Successfully Deleted!");
+    }
+
     private updateMessage(m: string) {
         this.message = m;
     }
 }
 
 exports.contacts = async function() {
-<<<<<<< HEAD
-=======
-    var app = require("application");
-    var contacts = require("nativescript-contacts");
-    // Check if CDG group exists
-    var groupExists = contacts.getGroups("CDG").then(
-        function(args) {
-            if (args.data === null) {
-                // No Group exists
-                return false;
-            }
-            return true;
-        },
-        function(err) {
-            console.log("Error: " + err);
-        }
-    );
-
-    if (groupExists == false) {
-        // Create the group
-        var groupModel = new contacts.Group();
-        groupModel.name = "CDG";
-        await groupModel.save(false);
-    }
-
->>>>>>> ef6dffa4f2ca539da5c6e18b0bb2ea991bf88653
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
         function(r: any) {
             var c = new Array();
@@ -156,18 +136,12 @@ exports.newContact = async function(c: any) {
             label: contacts.KnownLabel.HOME,
             value: requiredContacts[k].phonenumber
         });
+        newContact.company = "CDG";
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
             console.log(newContact);
             await newContact.save();
-            // Add contact to group
-            contacts.getGroups("CDG").then(function(a) {
-                if (a.data !== null) {
-                    var group = a.data[0];
-                    group.addMember(newContact);
-                }
-            });
         } catch (e) {
             console.log(e);
         }
@@ -189,3 +163,32 @@ class Contact {
         this.address = address;
     }
 }
+
+exports.deleteCDGContacts = async function() {
+    var app = require("application");
+    var contacts = require("nativescript-contacts");
+
+    var contactFields = ["name"];
+
+    await contacts.getAllContacts(contactFields).then(
+        function(args) {
+            /// Returns args:
+            /// args.data: Generic cross platform JSON object, null if no contacts were found.
+            /// args.reponse: "fetch"
+            if (args.data === null) {
+                // Do nothing, no contacts to iterate through
+                return true;
+            }
+
+            for (var i = 0; i < args.data.length; i++) {
+                if (args.data[i].company == "CDG") {
+                    var contact = args.data[i];
+                    contact.delete();
+                }
+            }
+        },
+        function(err) {
+            console.log("Error: " + err);
+        }
+    );
+};
