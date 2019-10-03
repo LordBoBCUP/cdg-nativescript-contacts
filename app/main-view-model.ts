@@ -122,11 +122,11 @@ exports.newContact = async function(c: any) {
             }
         }
     }
-    console.log("REQUIRED CONTACTS COUNT IS: " + requiredContacts.length);
+    //console.log("REQUIRED CONTACTS COUNT IS: " + requiredContacts.length);
 
     for (var k = 0; k < requiredContacts.length; k++) {
         var newContact = new contacts.Contact();
-        console.log(requiredContacts[k]);
+        //console.log(requiredContacts[k]);
         newContact.name.given = requiredContacts[k].firstname;
         newContact.name.family = requiredContacts[k].lastname;
         newContact.phoneNumbers.push({
@@ -137,6 +137,7 @@ exports.newContact = async function(c: any) {
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
+            console.log(newContact);
             await newContact.save();
         } catch (e) {
             console.log(e);
