@@ -87,7 +87,7 @@ exports.newContact = async function(c: any) {
     var app = require("application");
     var contacts = require("nativescript-contacts");
     // Get Contacts object
-    var contactFields = ["name"];
+    var contactFields = ["name", "organization"];
     var phoneContacts = await contacts.getAllContacts(contactFields).then(
         function(args) {
             if (args.data === null) {
@@ -112,7 +112,8 @@ exports.newContact = async function(c: any) {
         for (var j = 0; j < phoneContacts.length; j++) {
             if (
                 phoneContacts[j].name.given == c[i].firstname &&
-                phoneContacts[j].name.family == c[i].lastname
+                phoneContacts[j].name.family == c[i].lastname &&
+                phoneContacts.organization.name == "CDG"
             ) {
                 console.log("Contact Already exists. Dont process");
                 continue;
@@ -125,6 +126,7 @@ exports.newContact = async function(c: any) {
 
     for (var k = 0; k < requiredContacts.length; k++) {
         var newContact = new contacts.Contact();
+        console.log(requiredContacts[k]);
         newContact.name.given = requiredContacts[k].firstname;
         newContact.name.family = requiredContacts[k].lastname;
         newContact.phoneNumbers.push({
