@@ -136,7 +136,7 @@ exports.newContact = async function(c: any) {
             label: contacts.KnownLabel.HOME,
             value: requiredContacts[k].phonenumber
         });
-        newContact.company = "CDG";
+        newContact.organization.name = "CDG";
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
@@ -181,7 +181,7 @@ exports.deleteCDGContacts = async function() {
             }
 
             for (var i = 0; i < args.data.length; i++) {
-                if (args.data[i].company == "CDG") {
+                if (args.data[i].organization.name == "CDG") {
                     var contact = args.data[i];
                     contact.delete();
                 }
