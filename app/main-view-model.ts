@@ -168,11 +168,10 @@ exports.deleteCDGContacts = async function() {
     var app = require("application");
     var contacts = require("nativescript-contacts");
 
-    var contactFields = ["name"];
+    var contactFields = ["name", "organization"];
 
     await contacts.getAllContacts(contactFields).then(
         function(args) {
-            console.log(args.length);
             /// Returns args:
             /// args.data: Generic cross platform JSON object, null if no contacts were found.
             /// args.reponse: "fetch"
