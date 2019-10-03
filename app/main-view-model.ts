@@ -39,10 +39,20 @@ export class HelloWorldModel extends Observable {
         this.updateMessage("Processing...");
         await exports.deleteCDGContacts();
         this.updateMessage("Contacts Successfully Deleted!");
+        this.resetMessage();
     }
 
     private updateMessage(m: string) {
         this.message = m;
+    }
+
+    private async resetMessage() {
+        await this.sleep(3000);
+        this.updateMessage("Ready...");
+    }
+
+    sleep(ms: any) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
