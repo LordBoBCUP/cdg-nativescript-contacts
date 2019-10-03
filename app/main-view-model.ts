@@ -29,10 +29,11 @@ export class HelloWorldModel extends Observable {
     }
 
     async onTap() {
-        console.log("Button was pressed");
         this.updateMessage("Processing...");
         await exports.contacts();
         this.updateMessage("Contacts Successfully Synced.");
+        await this.sleep(3000);
+        this.updateMessage("Ready...");
     }
 
     async deleteContacts() {
@@ -90,9 +91,7 @@ exports.newContact = async function(c: any) {
     var phoneContacts = await contacts.getAllContacts(contactFields).then(
         function(args) {
             if (args.data === null) {
-                console.log("No Contacts Found.");
             } else {
-                console.log("args.data");
                 return args.data;
             }
         },
@@ -106,21 +105,11 @@ exports.newContact = async function(c: any) {
     for (var i = 0; i < c.length; i++) {
         if (phoneContacts.length == 0) {
             for (var x = 0; x < c.length; x++) {
-                console.log(
-                    "Adding items to requiredContacts because there are no detected contacts on the phone."
-                );
                 requiredContacts.push(c[x]);
             }
             break;
         }
         for (var j = 0; j < phoneContacts.length; j++) {
-            console.log(
-                "phoneContacts: " +
-                    phoneContacts[j].name.given +
-                    " " +
-                    phoneContacts[j].name.family
-            );
-            console.log("httpObject: " + c[i].firstname + " " + c[i].lastname);
             if (
                 phoneContacts[j].name.given == c[i].firstname &&
                 phoneContacts[j].name.family == c[i].lastname
@@ -132,13 +121,9 @@ exports.newContact = async function(c: any) {
             }
         }
     }
+    console.log("REQUIRED CONTACTS COUNT IS: " + requiredContacts.length);
 
-    console.log(
-        "Looping through the requiredContacts array. Length is: " +
-            requiredContacts.length
-    );
     for (var k = 0; k < requiredContacts.length; k++) {
-        console.log(requiredContacts[k]);
         var newContact = new contacts.Contact();
         newContact.name.given = requiredContacts[k].firstname;
         newContact.name.family = requiredContacts[k].lastname;
@@ -150,7 +135,6 @@ exports.newContact = async function(c: any) {
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
-            console.log(newContact);
             await newContact.save();
         } catch (e) {
             console.log(e);
