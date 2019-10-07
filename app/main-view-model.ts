@@ -37,6 +37,7 @@ export class HelloWorldModel extends Observable {
         try {
             await exports.contacts(this.textFieldValue);
         } catch (e) {
+            console.log(e);
             if (e.message == "Unauthorized") {
                 this.updateMessage("Your PIN is either not valid or expired!");
                 this.resetMessage();
@@ -75,6 +76,7 @@ exports.contacts = async function(pin: any) {
             console.log(r[0].error);
             console.log("Passed PIN: " + pin);
             if (r[0].error == "Your PIN is not valid or expired.") {
+                console.log("New Error");
                 throw new Error("Unauthorized");
             }
 
@@ -155,7 +157,7 @@ exports.newContact = async function(c: any) {
         newContact.name.displayname =
             requiredContacts[k].firstname + " " + requiredContacts[k].lastname;
         try {
-            console.log(newContact);
+            //console.log(newContact);
             await newContact.save();
         } catch (e) {
             console.log(e);
