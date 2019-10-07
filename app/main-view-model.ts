@@ -33,17 +33,9 @@ export class HelloWorldModel extends Observable {
 
     async onTap(args) {
         this.updateMessage("Processing...");
-        await exports.contacts(this.textFieldValue);
-        if (this.message != "")
-            this.updateMessage("Contacts Successfully Synced.");
-        await this.sleep(3000);
-        this.updateMessage("Ready...");
-    }
 
-    async deleteContacts() {
-        this.updateMessage("Processing...");
         try {
-            await exports.deleteCDGContacts();
+            await exports.contacts(this.textFieldValue);
         } catch (e) {
             if (e.message == "Unauthorized") {
                 this.updateMessage("Your PIN is either not valid or expired!");
@@ -51,6 +43,14 @@ export class HelloWorldModel extends Observable {
                 return;
             }
         }
+        this.updateMessage("Contacts Successfully Synced.");
+        await this.sleep(3000);
+        this.updateMessage("Ready...");
+    }
+
+    async deleteContacts() {
+        this.updateMessage("Processing...");
+        await exports.deleteCDGContacts();
         this.updateMessage("Contacts Successfully Deleted!");
         this.resetMessage();
     }
@@ -75,8 +75,7 @@ exports.contacts = async function(pin: any) {
             console.log(r[0].error);
             console.log("Passed PIN: " + pin);
             if (r[0].error == "Your PIN is not valid or expired.") {
-                throw Error("Unauthorized");
-                return;
+                throw new Error("Unauthorized");
             }
 
             var c = new Array();
