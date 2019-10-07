@@ -46,7 +46,7 @@ export class HelloWorldModel extends Observable {
             await exports.deleteCDGContacts();
         } catch (e) {
             if (e.message == "Unauthorized") {
-                this.updateMessage("Contacts Successfully Deleted!");
+                this.updateMessage("Your PIN is either not valid or expired!");
                 this.resetMessage();
                 return;
             }
