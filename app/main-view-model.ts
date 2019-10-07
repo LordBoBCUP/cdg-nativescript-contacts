@@ -64,6 +64,7 @@ exports.contacts = async function(pin: any) {
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
             console.log(r[0]);
+            console.log("Passed PIN: " + pin);
             if (r[0].error == "Your PIN is not valid or expired.") {
                 return;
             }
