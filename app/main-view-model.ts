@@ -1,3 +1,4 @@
+import { ObservableProperty } from "../app/observable-property-decorator";
 import { Observable } from "tns-core-modules/data/observable";
 
 import { getJSON } from "tns-core-modules/http";
@@ -9,6 +10,8 @@ let contactList = new ObservableArray();
 export class HelloWorldModel extends Observable {
     private _counter: number;
     private _message: string;
+    @ObservableProperty() textFieldValue: string = "";
+
     constructor() {
         super();
 
@@ -28,9 +31,9 @@ export class HelloWorldModel extends Observable {
         }
     }
 
-    async onTap() {
+    async onTap(args) {
         this.updateMessage("Processing...");
-        await exports.contacts();
+        await exports.contacts(this.textFieldValue);
         this.updateMessage("Contacts Successfully Synced.");
         await this.sleep(3000);
         this.updateMessage("Ready...");
@@ -57,9 +60,13 @@ export class HelloWorldModel extends Observable {
     }
 }
 
-exports.contacts = async function() {
-    await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts").then(
+exports.contacts = async function(pin: any) {
+    await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
+            if (r[0].error == "Your PIN is not valid or expired.") {
+                return;
+            }
+
             var c = new Array();
             for (var i = 0; i < r.length; i++) {
                 var contact = new Contact(
