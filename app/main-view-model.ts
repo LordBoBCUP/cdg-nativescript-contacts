@@ -1,11 +1,12 @@
 import { ObservableProperty } from "../app/observable-property-decorator";
 import { Observable } from "tns-core-modules/data/observable";
-
+import { BackgroundFetch } from "nativescript-background-fetch";
 import { getJSON } from "tns-core-modules/http";
 import { ObservableArray } from "tns-core-modules/data/observable-array";
-//import { isAndroid } from "tns-core-modules/platform";
 
+import { isAndroid, isIOS, device, screen } from "tns-core-modules/platform";
 let contactList = new ObservableArray();
+const appSettings = require("application-settings");
 
 export class HelloWorldModel extends Observable {
     private _counter: number;
@@ -18,6 +19,34 @@ export class HelloWorldModel extends Observable {
         // Initialize default values.
         this._counter = 42;
         this.updateMessage("Ready.");
+
+        // You can query the UIBackgroundRefreshStatus.  User can disable fetch.
+        BackgroundFetch.status(status => {
+            console.log("- BackgroundFetch status: ", status);
+        });
+
+        // Configure Background Fetch
+        BackgroundFetch.configure(
+            {
+                stopOnTerminate: false,
+                minimumFetchInterval: 15 // minutes
+            },
+            () => {
+                console.log("[js] BackgroundFetch event received");
+                //
+                // Do stuff.  You have 30s of background-time.
+                //
+                // When your job is complete, you must signal completion or iOS can kill your app.  Signal the nature of the fetch-event, whether you recevied:
+                // FETCH_RESULT_NEW_DATA: Received new data from your server
+                // FETCH_RESULT_NO_DATA:  No new data received from your server
+                // FETCH_RESULT_FAILED:  Failed to receive new data.
+                exports.contacts(appSettings.getNumber("PIN"));
+                BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
+            },
+            status => {
+                console.log("BackgroundFetch not supported by your OS", status);
+            }
+        );
     }
 
     get message(): string {
@@ -80,6 +109,9 @@ exports.contacts = async function(pin: any) {
                 console.log("New Error");
                 throw new Error("Unauthorized");
             }
+
+            // Save PIN for future use
+            appSettings.setNumber("PIN", pin);
 
             var c = new Array();
             for (var i = 0; i < r.length; i++) {
