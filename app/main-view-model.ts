@@ -133,6 +133,7 @@ exports.contacts = async function(pin: any) {
                     r.Contacts[i].PhoneNumber,
                     r.Contacts[i].Address
                 );
+                console.log("Contact object is: " + contact);
                 c.push(contact);
             }
             try {
@@ -148,6 +149,7 @@ exports.contacts = async function(pin: any) {
 };
 
 exports.newContact = async function(c: any) {
+    console.log("Running newContact()");
     var app = require("application");
     var contacts = require("nativescript-contacts");
     // Get Contacts object
