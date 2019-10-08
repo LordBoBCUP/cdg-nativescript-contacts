@@ -101,9 +101,11 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function(pin: any) {
+    console.log("PIN Before checking appsettings" + pin)
     if (pin == null) {
         pin = appSettings.getNumber("PIN");
     }
+    console.log("PIN After" + pin)
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
             console.log("Passed PIN: " + pin);
