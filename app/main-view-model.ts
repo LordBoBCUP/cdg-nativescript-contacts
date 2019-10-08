@@ -95,7 +95,7 @@ exports.contacts = async function(pin: any) {
         if (pin == null) {
             console.log("appSettings PIN is null");
             // Not going to be authorized so dont even bother querying the API.
-            this.updateMessage("Unauthorized!");
+            //this.updateMessage("Unauthorized!");
             return;
         }
     }
