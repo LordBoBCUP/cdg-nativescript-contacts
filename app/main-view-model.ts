@@ -33,7 +33,7 @@ export class HelloWorldModel extends Observable {
 
     async onTap(args) {
         this.updateMessage("Processing...");
-
+        this.textFieldValue = "";
         try {
             await exports.contacts(this.textFieldValue);
             this.updateMessage("Contacts Successfully Synced.");
@@ -51,6 +51,7 @@ export class HelloWorldModel extends Observable {
 
     async deleteContacts() {
         this.updateMessage("Processing...");
+        this.textFieldValue = "";
         await exports.deleteCDGContacts();
         this.updateMessage("Contacts Successfully Deleted!");
         this.resetMessage();
