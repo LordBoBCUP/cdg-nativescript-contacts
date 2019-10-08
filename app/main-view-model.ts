@@ -92,6 +92,7 @@ export class HelloWorldModel extends Observable {
 
 exports.contacts = async function(pin: any) {
     console.log("PIN Before checking appsettings" + pin);
+    console.log(typeof pin);
     if (pin === "") {
         console.log('pin === "" getting pin from secret');
         pin = appSettings.getString("secret");
