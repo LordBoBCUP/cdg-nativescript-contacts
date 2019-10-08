@@ -39,7 +39,7 @@ export class HelloWorldModel extends Observable {
                 // FETCH_RESULT_NEW_DATA: Received new data from your server
                 // FETCH_RESULT_NO_DATA:  No new data received from your server
                 // FETCH_RESULT_FAILED:  Failed to receive new data.
-                exports.contacts(appSettings.getNumber("PIN"));
+                exports.contacts(appSettings.getString("PIN"));
                 BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
             },
             status => {
@@ -102,7 +102,7 @@ export class HelloWorldModel extends Observable {
 exports.contacts = async function(pin: any) {
     console.log("PIN Before checking appsettings" + pin);
     if (pin == null) {
-        pin = appSettings.getNumber("PIN");
+        pin = appSettings.getString("PIN");
         if (pin == null) {
             console.log("appSettings PIN: " + pin);
             // Not going to be authorized so dont even bother querying the API.
@@ -122,10 +122,10 @@ exports.contacts = async function(pin: any) {
 
             // Save PIN for future use
             console.log("Setting secret in appSettings: " + r.Secret);
-            appSettings.setNumber("PIN", r.Secret);
+            appSettings.getString("PIN", r.Secret);
             console.log(
                 "Prove secret is set by getting it: " +
-                    appSettings.getNumber("PIN")
+                    appSettings.getString("PIN")
             );
             var c = new Array();
             console.log("Array length should be 2: " + r.Contacts.length);
