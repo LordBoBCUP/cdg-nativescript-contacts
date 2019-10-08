@@ -122,7 +122,10 @@ exports.contacts = async function(pin: any) {
             // Save PIN for future use
             console.log("Setting secret in appSettings: " + r.Secret);
             appSettings.setNumber("PIN", r.Secret);
-
+            console.log(
+                "Prove secret is set by getting it: " +
+                    appSettings.getNumber("PIN")
+            );
             var c = new Array();
             console.log("Array length should be 2: " + r.Contacts.length);
             console.log("array is: " + r);
