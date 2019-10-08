@@ -3,10 +3,9 @@ import { Observable } from "tns-core-modules/data/observable";
 import { BackgroundFetch } from "nativescript-background-fetch";
 import { getJSON } from "tns-core-modules/http";
 import { ObservableArray } from "tns-core-modules/data/observable-array";
+import * as appSettings from "tns-core-modules/application-settings";
 
-import { isAndroid, isIOS, device, screen } from "tns-core-modules/platform";
 let contactList = new ObservableArray();
-const appSettings = require("application-settings");
 
 export class HelloWorldModel extends Observable {
     private _counter: number;
