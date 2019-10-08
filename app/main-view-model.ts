@@ -104,6 +104,7 @@ exports.contacts = async function(pin: any) {
     if (pin == null) {
         pin = appSettings.getNumber("PIN");
         if (pin == null) {
+            console.log("appSettings PIN: " + pin);
             // Not going to be authorized so dont even bother querying the API.
             throw new Error("No PIN provided.");
         }
