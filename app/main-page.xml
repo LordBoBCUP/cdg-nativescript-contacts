@@ -25,7 +25,7 @@ https://docs.nativescript.org/ui/components.
     class names available for styling your app at https://docs.nativescript.org/ui/theme.
     -->
     <StackLayout class="p-20">
-        <Label text="PIN" class="h2 text-centered"/>
+        <Label text="PIN" class="h2 text-center"/>
         <TextField id="PIN" hint="PIN" text="{{ textFieldValue }}" class="textField"/>
         <Label text="Sync VHS Contacts!" class="h1 text-center"/>
         <Button text="Sync!" tap="{{ onTap }}" class="btn btn-primary btn-active"/>
