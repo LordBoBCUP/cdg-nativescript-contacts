@@ -93,7 +93,7 @@ exports.contacts = async function(pin: any) {
     if (pin == null) {
         pin = appSettings.getString("secret");
         if (pin == null) {
-            console.log("appSettings PIN: " + pin);
+            console.log("appSettings PIN is null");
             // Not going to be authorized so dont even bother querying the API.
             this.updateMessage("Unauthorized!");
             return;
@@ -102,6 +102,7 @@ exports.contacts = async function(pin: any) {
     console.log("PIN After" + pin);
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
+            console.log(r);
             console.log("Passed PIN: " + pin);
             if (r.Error == "Your PIN is not valid or expired.") {
                 console.log("New Error");
@@ -120,7 +121,7 @@ exports.contacts = async function(pin: any) {
             );
             var c = new Array();
             console.log("Array length should be 2: " + r.Contacts.length);
-            console.log("array is: " + r);
+
             for (var i = 0; i < r.Contacts.length; i++) {
                 var contact = new Contact(
                     r.Contacts[i].ID,
