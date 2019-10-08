@@ -71,7 +71,8 @@ export class HelloWorldModel extends Observable {
         } catch (e) {
             console.log(e);
             if (e.message == "Unauthorized") {
-                this.updateMessage("Your PIN is either not valid or expired!");
+                //this.updateMessage("Your PIN is either not valid or expired!");
+                this.updateMessage(e.message);
                 this.resetMessage();
                 return;
             }
@@ -101,19 +102,26 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function(pin: any) {
-    console.log("PIN Before checking appsettings" + pin)
+    console.log("PIN Before checking appsettings" + pin);
     if (pin == null) {
         pin = appSettings.getNumber("PIN");
+        if (pin == null) {
+            // Not going to be authorized so dont even bother querying the API.
+            throw new Error("No PIN provided.");
+        }
     }
-    console.log("PIN After" + pin)
+    console.log("PIN After" + pin);
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
             console.log("Passed PIN: " + pin);
             if (r.Error == "Your PIN is not valid or expired.") {
                 console.log("New Error");
+                // Remove PIN from local storage
+                appSettings.remove("PIN");
                 throw new Error("Unauthorized");
             }
 
+            console.log("Here");
             // Save PIN for future use
             appSettings.setNumber("PIN", r.Secret);
 
