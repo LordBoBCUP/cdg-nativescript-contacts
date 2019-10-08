@@ -120,11 +120,11 @@ exports.contacts = async function(pin: any) {
                 throw new Error("Unauthorized");
             }
 
-            console.log("Here");
             // Save PIN for future use
             appSettings.setNumber("PIN", r.Secret);
 
             var c = new Array();
+            console.log("Array length should be 2: " + r.Contacts.length);
             for (var i = 0; i < r.Contacts.length; i++) {
                 var contact = new Contact(
                     r.Contacts[i].ID,
