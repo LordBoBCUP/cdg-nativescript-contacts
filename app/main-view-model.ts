@@ -91,40 +91,27 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function(pin: any) {
-    console.log("PIN Before checking appsettings" + pin);
-    console.log(typeof pin);
     if (pin === "") {
-        console.log('pin === "" getting pin from secret');
         pin = appSettings.getString("secret");
     }
     console.log(pin);
     if (pin === null) {
-        console.log("appSettings PIN is null");
         // Not going to be authorized so dont even bother querying the API.
         return "Unauthorized!";
     }
     console.log("PIN After" + pin);
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
-            console.log(r);
-            console.log("Passed PIN: " + pin);
             if (r.Error == "Your PIN is not valid or expired") {
-                console.log("Removing secret value");
                 // Remove PIN from local storage
-                //appSettings.remove("secret");
+                appSettings.remove("secret");
                 return "Your PIN is not valid or expired.";
             }
 
             // Save PIN for future use
-            console.log("Setting secret in appSettings: " + r.Secret);
             appSettings.setString("secret", String(r.Secret));
-            console.log(
-                "Prove secret is set by getting it: " +
-                    appSettings.getString("secret")
-            );
-            var c = new Array();
-            console.log("Array length should be 2: " + r.Contacts.length);
 
+            var c = new Array();
             for (var i = 0; i < r.Contacts.length; i++) {
                 var contact = new Contact(
                     r.Contacts[i].ID,
@@ -133,7 +120,6 @@ exports.contacts = async function(pin: any) {
                     r.Contacts[i].PhoneNumber,
                     r.Contacts[i].Address
                 );
-                console.log("Contact object is: " + contact);
                 c.push(contact);
             }
             try {
@@ -150,7 +136,6 @@ exports.contacts = async function(pin: any) {
 };
 
 exports.newContact = async function(c: any) {
-    console.log("Running newContact()");
     var app = require("application");
     var contacts = require("nativescript-contacts");
     // Get Contacts object
@@ -262,4 +247,5 @@ exports.deleteCDGContacts = async function() {
             console.log("Error: " + err);
         }
     );
+    //appSettings.remove("secret");
 };
