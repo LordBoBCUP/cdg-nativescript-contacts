@@ -92,12 +92,12 @@ exports.contacts = async function(pin: any) {
     console.log("PIN Before checking appsettings" + pin);
     if (pin == null) {
         pin = appSettings.getString("secret");
-        if (pin == null) {
-            console.log("appSettings PIN is null");
-            // Not going to be authorized so dont even bother querying the API.
-            //this.updateMessage("Unauthorized!");
-            return;
-        }
+    }
+    if (pin == null) {
+        console.log("appSettings PIN is null");
+        // Not going to be authorized so dont even bother querying the API.
+        this.updateMessage("Unauthorized!");
+        return;
     }
     console.log("PIN After" + pin);
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
