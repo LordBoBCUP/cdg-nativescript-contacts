@@ -101,6 +101,9 @@ export class HelloWorldModel extends Observable {
 }
 
 exports.contacts = async function(pin: any) {
+    if (pin == null) {
+        pin = appSettings.getNumber("PIN");
+    }
     await getJSON("http://nzakl1pc001.augen.co.nz:8080/contacts/" + pin).then(
         function(r: any) {
             console.log(r.Error);
@@ -111,16 +114,16 @@ exports.contacts = async function(pin: any) {
             }
 
             // Save PIN for future use
-            appSettings.setNumber("PIN", pin);
+            appSettings.setNumber("PIN", r.Secret);
 
             var c = new Array();
-            for (var i = 0; i < r.length; i++) {
+            for (var i = 0; i < r.Contacts.length; i++) {
                 var contact = new Contact(
-                    r[i].ID,
-                    r[i].FirstName,
-                    r[i].LastName,
-                    r[i].PhoneNumber,
-                    r[i].Address
+                    r.Contacts[i].ID,
+                    r.Contacts[i].FirstName,
+                    r.Contacts[i].LastName,
+                    r.Contacts[i].PhoneNumber,
+                    r.Contacts[i].Address
                 );
                 c.push(contact);
             }
