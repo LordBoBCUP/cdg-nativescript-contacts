@@ -6,6 +6,25 @@ purpose of the file is to pass control to the app’s first module.
 
 import * as application from "tns-core-modules/application";
 
+import { BackgroundFetch } from "nativescript-background-fetch";
+
+if (application.ios) {
+    class MyDelegate extends UIResponder implements UIApplicationDelegate {
+        public static ObjCProtocols = [UIApplicationDelegate];
+
+        public applicationPerformFetchWithCompletionHandler(
+            application: UIApplication,
+            completionHandler: any
+        ) {
+            BackgroundFetch.performFetchWithCompletionHandler(
+                completionHandler,
+                application.applicationState
+            );
+        }
+    }
+    application.ios.delegate = MyDelegate;
+}
+
 application.run({ moduleName: "app-root" });
 
 /*
