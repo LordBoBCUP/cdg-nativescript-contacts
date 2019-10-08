@@ -72,6 +72,7 @@ export class HelloWorldModel extends Observable {
         this.textFieldValue = "";
         await exports.deleteCDGContacts();
         this.updateMessage("Contacts Successfully Deleted!");
+        await this.sleep(3000);
         this.resetMessage();
     }
 
@@ -106,7 +107,7 @@ exports.contacts = async function(pin: any) {
             console.log(r);
             console.log("Passed PIN: " + pin);
             if (r.Error == "Your PIN is not valid or expired") {
-                console.log("New Error");
+                console.log("Removing secret value");
                 // Remove PIN from local storage
                 appSettings.remove("secret");
                 return "Your PIN is not valid or expired.";
