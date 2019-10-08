@@ -92,7 +92,7 @@ export class HelloWorldModel extends Observable {
 
 exports.contacts = async function(pin: any) {
     console.log("PIN Before checking appsettings" + pin);
-    if (pin === null) {
+    if (pin == null) {
         console.log("pin === null getting pin from secret");
         pin = appSettings.getString("secret");
     }
@@ -110,7 +110,7 @@ exports.contacts = async function(pin: any) {
             if (r.Error == "Your PIN is not valid or expired") {
                 console.log("Removing secret value");
                 // Remove PIN from local storage
-                appSettings.remove("secret");
+                //appSettings.remove("secret");
                 return "Your PIN is not valid or expired.";
             }
 
