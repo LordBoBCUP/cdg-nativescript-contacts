@@ -61,20 +61,9 @@ export class HelloWorldModel extends Observable {
 
     async onTap(args) {
         this.updateMessage("Processing...");
-        try {
-            await exports.contacts(this.textFieldValue);
-            this.updateMessage("Contacts Successfully Synced.");
-            await this.sleep(3000);
-            this.updateMessage("Ready...");
-        } catch (e) {
-            console.log(e);
-            if (e.message == "Unauthorized") {
-                //this.updateMessage("Your PIN is either not valid or expired!");
-                this.updateMessage(e.message);
-                this.resetMessage();
-                return;
-            }
-        }
+        await exports.contacts(this.textFieldValue);
+        await this.sleep(3000);
+        this.updateMessage("Ready...");
     }
 
     async deleteContacts() {
@@ -106,7 +95,8 @@ exports.contacts = async function(pin: any) {
         if (pin == null) {
             console.log("appSettings PIN: " + pin);
             // Not going to be authorized so dont even bother querying the API.
-            throw new Error("No PIN provided.");
+            this.updateMessage("Unauthorized!");
+            return;
         }
     }
     console.log("PIN After" + pin);
@@ -117,7 +107,8 @@ exports.contacts = async function(pin: any) {
                 console.log("New Error");
                 // Remove PIN from local storage
                 appSettings.remove("secret");
-                throw new Error("Unauthorized");
+                this.updateMessage("Your PIN is not valid or expired.");
+                return;
             }
 
             // Save PIN for future use
@@ -151,6 +142,7 @@ exports.contacts = async function(pin: any) {
             console.log(e);
         }
     );
+    this.updateMessage("Contacts Successfully Synced.");
 };
 
 exports.newContact = async function(c: any) {
