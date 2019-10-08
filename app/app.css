@@ -21,8 +21,10 @@ components that have the btn class name.
 }
 
 .textField {
-  border-color: #a4a4a4;
+  border-color: #000;
   border-width: 1;
+  color: #fff;
+  placeholder-color: #696969;
   /*align-self: center;
   margin: 10;
   font-size: 12;
