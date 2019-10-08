@@ -27,7 +27,7 @@ https://docs.nativescript.org/ui/components.
     <StackLayout class="p-20">
         <Label text="Sync VHS Contacts!" class="h1 text-center"/>
         <Label text="PIN" class="h2 text-center"/>
-        <TextField id="PIN" hint="PIN" text="{{ textFieldValue }}" class="textField" maxLength="4" keyboardType="number"/>
+        <TextField id="PIN" hint="PIN" text="{{ textFieldValue }}" maxLength="4" keyboardType="phone" class="textField" />
         <Button text="Sync!" tap="{{ onTap }}" class="btn btn-primary btn-active"/>
         <Label text="{{ message }}" class="h2 text-center" textWrap="true"/>
         <label text="" class="h2 text-center" textWrap="true" />
