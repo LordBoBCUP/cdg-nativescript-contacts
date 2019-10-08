@@ -93,6 +93,7 @@ exports.contacts = async function(pin: any) {
     if (pin == null) {
         pin = appSettings.getString("secret");
     }
+    console.log(pin);
     if (pin == null) {
         console.log("appSettings PIN is null");
         // Not going to be authorized so dont even bother querying the API.
@@ -104,7 +105,7 @@ exports.contacts = async function(pin: any) {
         function(r: any) {
             console.log(r);
             console.log("Passed PIN: " + pin);
-            if (r.Error == "Your PIN is not valid or expired.") {
+            if (r.Error == "Your PIN is not valid or expired") {
                 console.log("New Error");
                 // Remove PIN from local storage
                 appSettings.remove("secret");
