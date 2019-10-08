@@ -36,6 +36,9 @@ export class HelloWorldModel extends Observable {
 
         try {
             await exports.contacts(this.textFieldValue);
+            this.updateMessage("Contacts Successfully Synced.");
+            await this.sleep(3000);
+            this.updateMessage("Ready...");
         } catch (e) {
             console.log(e);
             if (e.message == "Unauthorized") {
@@ -44,9 +47,6 @@ export class HelloWorldModel extends Observable {
                 return;
             }
         }
-        this.updateMessage("Contacts Successfully Synced.");
-        await this.sleep(3000);
-        this.updateMessage("Ready...");
     }
 
     async deleteContacts() {
