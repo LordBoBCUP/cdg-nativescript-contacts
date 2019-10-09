@@ -6,6 +6,11 @@
 	<string>en</string>
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access for whatever reason.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+  		<key>NSAllowsArbitraryLoads</key>
+      		<true/>
+	</dict>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
