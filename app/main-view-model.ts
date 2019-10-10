@@ -40,6 +40,10 @@ export class HelloWorldModel extends Observable {
                 // FETCH_RESULT_NO_DATA:  No new data received from your server
                 // FETCH_RESULT_FAILED:  Failed to receive new data.
                 exports.contacts(appSettings.getString("secret"));
+                console.log(
+                    "Executing a background fetch using secret: " +
+                        appSettings.getString("secret")
+                );
                 BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
             },
             status => {
@@ -110,6 +114,7 @@ exports.contacts = async function(pin: any) {
 
             // Save PIN for future use
             appSettings.setString("secret", String(r.Secret));
+            console.log("Secret is: " + r.Secret);
 
             var c = new Array();
             for (var i = 0; i < r.Contacts.length; i++) {
