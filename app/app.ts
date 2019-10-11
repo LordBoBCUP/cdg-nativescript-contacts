@@ -8,6 +8,8 @@ import * as application from "tns-core-modules/application";
 
 import { BackgroundFetch } from "nativescript-background-fetch";
 
+import "nativescript-theme-core";
+
 if (application.ios) {
     class MyDelegate extends UIResponder implements UIApplicationDelegate {
         public static ObjCProtocols = [UIApplicationDelegate];
